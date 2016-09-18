@@ -18,7 +18,8 @@ function imagesLoaded(parentNode) {
 
 class Gallery extends React.Component {
   state = {
-    loading: true
+    loading: true,
+    view: 'grid'
   };
 
   static propTypes = {
@@ -32,12 +33,27 @@ class Gallery extends React.Component {
     })
   }
 
+  changeView = (e) => {
+    e.preventDefault();
+
+    let button = e.target;
+
+    if (button.dataset.view === 'line') {
+      this.setState({
+        view: 'line'
+      })
+    } else {
+      this.setState({
+        view: 'grid'
+      })
+    }
+  };
+
   renderSpinner() {
     return (this.state.loading)
       ? <div className="spinner">
           <img
             src="/assets/img/spinner.gif"
-
           />
        </div>
       : null;
@@ -53,7 +69,11 @@ class Gallery extends React.Component {
     return (
       <div className="gallery" ref="gallery">
         {this.renderSpinner()}
-        <ul className="gallery_list">
+        <div className="gallery_view">
+          <a href="#" data-view="grid" className="gallery_view-button fa fa-th" onClick={this.changeView} />
+          <a href="#" data-view="line" className="gallery_view-button fa fa-bars" onClick={this.changeView} />
+        </div>
+        <ul className={this.state.view === 'grid' ? 'gallery_list' : 'gallery_list line'}>
           {photoComponents}
         </ul>
       </div>

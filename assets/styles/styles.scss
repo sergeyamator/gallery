@@ -3,10 +3,37 @@
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
+
+    &.line {
+      flex-direction: column;
+
+      .picture {
+        width: 100%;
+      }
+    }
+  }
+
+  &_view {
+    text-align: center;
+
+    &-button {
+      display: inline-block;
+      margin-left: 10px;
+      padding: 5px;
+      border: 1px solid gray;
+      color: grey;
+      font-size: 25px;
+      text-decoration: none;
+
+      &:first-child {
+        margin-left: 0;
+      }
+    }
   }
 }
 
 .picture {
+  width: 342px;
   margin-bottom: 15px;
   padding: 10px;
   border: 1px solid gray;
