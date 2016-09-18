@@ -17,19 +17,21 @@ class Photo extends React.Component {
   readMore = e => {
     e.preventDefault();
     this.setState({
-      visible: true
+      visible: !this.state.visible
     });
   };
 
   render() {
     const {name, path, description} = this.props.item;
     let visible = this.state.visible;
+    let callback = this.props.callback;
 
     return (
       <div>
         <h2>{name}</h2>
-        <div><img src={path}/></div>
+        <div className="picture_img"><img src={path} onLoad={callback} /></div>
         <a onClick={this.readMore} className={`photo_link ${visible ? 'hidden' : ''}`} href="#">Подробнее</a>
+        <a onClick={this.readMore} className={`photo_link ${visible ? '' : 'hidden'}`} href="#">Меньше</a>
         <p className={`photo_description ${visible ? '' : 'hidden'}`}>{description}</p>
       </div>
     )

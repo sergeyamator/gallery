@@ -1,0 +1,32 @@
+.gallery {
+  &_list {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+}
+
+.picture {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid gray;
+  text-align: center;
+
+  &_img {
+    margin-bottom: 10px;
+  }
+}
+
+.spinner {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+
+  img {
+    margin: auto;
+  }
+}
