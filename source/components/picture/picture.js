@@ -1,8 +1,9 @@
 'use strict';
 
 import React from 'react';
+require('./picture.scss');
 
-class Photo extends React.Component {
+class Picture extends React.Component {
  state = {
    visible: false
  };
@@ -29,7 +30,7 @@ class Photo extends React.Component {
     return (
       <div>
         <h2>{name}</h2>
-        <div className="picture_img"><img src={path} onLoad={callback} /></div>
+        <a className="picture_img" href="#"><img src={path} onLoad={callback} /></a>
         <a onClick={this.readMore} className={`photo_link ${visible ? 'hidden' : ''}`} href="#">Подробнее</a>
         <a onClick={this.readMore} className={`photo_link ${visible ? '' : 'hidden'}`} href="#">Меньше</a>
         <p className={`photo_description ${visible ? '' : 'hidden'}`}>{description}</p>
@@ -38,4 +39,4 @@ class Photo extends React.Component {
   }
 }
 
-export default Photo;
+export default Picture;

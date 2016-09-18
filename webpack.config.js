@@ -1,10 +1,8 @@
 let path = require('path');
 let webpack = require('webpack');
-var webpackUglifyJsPlugin = require('webpack-uglify-js-plugin');
-
 
 module.exports = {
-  entry: './assets/js/main.js',
+  entry: './source/main.js',
   output: {
     path: './',
     filename: 'build/bundle.min.js'
@@ -29,8 +27,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loaders: ['style', 'css', 'sass'],
-        include: path.join(__dirname, 'assets/styles')
+        loaders: ['style', 'css', 'sass']
       }
     ]
   },

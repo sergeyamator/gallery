@@ -1,0 +1,14 @@
+
+.picture {
+  width: 342px;
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid gray;
+  text-align: center;
+
+  &_img {
+    display: inline-block;
+    margin-bottom: 10px;
+    text-decoration: none;
+  }
+}

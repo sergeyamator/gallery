@@ -1,7 +1,9 @@
 'use strict';
 
 import React from 'react';
-import Photo from './picture';
+import Picture from '../../components/picture/picture';
+import Spinner from '../spinner/spinner.js';
+require('./gallery.scss');
 
 function imagesLoaded(parentNode) {
   const imgElements = parentNode.querySelectorAll('img');
@@ -49,13 +51,9 @@ class Gallery extends React.Component {
     }
   };
 
-  renderSpinner() {
+  get renderSpinner() {
     return (this.state.loading)
-      ? <div className="spinner">
-          <img
-            src="/assets/img/spinner.gif"
-          />
-       </div>
+      ? <Spinner src="/source/assets/img/spinner.gif"/>
       : null;
   }
 
@@ -63,12 +61,12 @@ class Gallery extends React.Component {
     let pictures = this.props.data;
 
     const photoComponents = pictures.map(photo => {
-      return <li className="gallery_item picture" key={photo.id}><Photo callback={this.handleStateChange.bind(this)} item={photo}/></li>
+      return <li className="gallery_item picture" key={photo.id}><Picture callback={this.handleStateChange.bind(this)} item={photo}/></li>
     });
 
     return (
       <div className="gallery" ref="gallery">
-        {this.renderSpinner()}
+        {this.renderSpinner}
         <div className="gallery_view">
           <a href="#" data-view="grid" className="gallery_view-button fa fa-th" onClick={this.changeView} />
           <a href="#" data-view="line" className="gallery_view-button fa fa-bars" onClick={this.changeView} />

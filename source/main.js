@@ -2,10 +2,10 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Gallery from './components/gallery';
-import pictures from './components/data';
+import Gallery from './components/gallery/gallery';
+import pictures from './assets/db/data';
 
-require("../styles/app.scss");
+require("./assets/styles/app.scss");
 
 ReactDOM.render(
   <Gallery data={pictures} />,
