@@ -1,8 +1,11 @@
 'use strict';
 
 import React from 'react';
+
 import Picture from '../../components/picture/picture';
 import Spinner from '../spinner/spinner.js';
+import Slideshow from '../slideshow/slideshow.js'
+
 require('./gallery.scss');
 
 function imagesLoaded(parentNode) {
@@ -20,8 +23,11 @@ function imagesLoaded(parentNode) {
 
 class Gallery extends React.Component {
   state = {
+    data: this.props.data,
     loading: true,
-    view: 'grid'
+    view: 'grid',
+    slideshow: false,
+    selected: null
   };
 
   static propTypes = {
@@ -31,7 +37,7 @@ class Gallery extends React.Component {
   handleStateChange() {
     const galleryElement = this.refs.gallery;
     this.setState({
-      loading: !imagesLoaded(galleryElement)
+      loading: !imagesLoaded(galleryElement),
     })
   }
 
@@ -40,7 +46,7 @@ class Gallery extends React.Component {
 
     let button = e.target;
 
-    let state =  (button.dataset.view === 'line') ? 'line' : 'grid';
+    let state = (button.dataset.view === 'line') ? 'line' : 'grid';
 
     this.setState({
       view: state
@@ -53,23 +59,39 @@ class Gallery extends React.Component {
       : null;
   }
 
-  render() {
-    let pictures = this.props.data;
+  showGallery = (selected) => {
+    this.setState({
+      selected
+    });
+  };
 
-    const photoComponents = pictures.map(photo => {
-      return <li className="gallery_item picture" key={photo.id}><Picture callback={this.handleStateChange.bind(this)} item={photo}/></li>
+ closeGallery = () => {
+   let selected = null;
+
+    this.setState({
+      selected
+    });
+ };
+
+  render() {
+    const photoComponents = this.state.data.map(photo => {
+      return <li ref="picture" className="gallery_item picture" key={photo.id}><Picture onClick={this.showGallery} onLoadCb={::this.handleStateChange} item={photo}/></li>
     });
 
     return (
       <div className="gallery" ref="gallery">
         {this.renderSpinner}
+
         <div className="gallery_view">
           <a href="#" data-view="grid" className={this.state.view === 'grid' ? 'gallery_view-button fa fa-th active' : 'gallery_view-button fa fa-th'}  onClick={this.changeView} />
           <a href="#" data-view="line" className={this.state.view === 'grid' ? 'gallery_view-button fa fa-bars' : 'gallery_view-button fa fa-bars active'} onClick={this.changeView} />
         </div>
+
         <ul className={this.state.view === 'grid' ? 'gallery_list' : 'gallery_list line'}>
           {photoComponents}
         </ul>
+
+        <Slideshow close={this.closeGallery} selectedItem={this.state.selected} />
       </div>
     );
   }

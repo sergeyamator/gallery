@@ -29,11 +29,21 @@
       &:first-child {
         margin-left: 0;
       }
-      
+
       &.active {
         background: #caf2ff;
       }
     }
+  }
+
+  &_close {
+    position: absolute;
+    padding: 10px;
+    right: 0;
+    top: 0;
+    font-size: 24px;
+    color: #fff;
+    text-decoration: none;
   }
 }
 
