@@ -8,26 +8,14 @@ import Slideshow from '../slideshow/slideshow.js'
 
 require('./gallery.scss');
 
-function imagesLoaded(parentNode) {
-  const imgElements = parentNode.querySelectorAll('img');
-
-  for (const img of imgElements) {
-    if (!img.complete) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-
 class Gallery extends React.Component {
   state = {
     data: this.props.data,
     loading: true,
     view: 'grid',
     slideshow: false,
-    selected: null
+    selected: null,
+    pictureLoadCompleted: this.props.data.length - 1
   };
 
   static propTypes = {
@@ -39,9 +27,15 @@ class Gallery extends React.Component {
    * hide preloader
    */
   pictureLoaded() {
-    const galleryElement = this.refs.gallery;
+    if (this.state.pictureLoadCompleted > 0) {
+      this.setState({
+        pictureLoadCompleted: this.state.pictureLoadCompleted - 1
+      });
+
+      return false;
+    }
     this.setState({
-      loading: !imagesLoaded(galleryElement),
+      loading: false,
     })
   }
 
