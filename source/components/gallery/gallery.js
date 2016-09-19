@@ -40,15 +40,11 @@ class Gallery extends React.Component {
 
     let button = e.target;
 
-    if (button.dataset.view === 'line') {
-      this.setState({
-        view: 'line'
-      })
-    } else {
-      this.setState({
-        view: 'grid'
-      })
-    }
+    let state =  (button.dataset.view === 'line') ? 'line' : 'grid';
+
+    this.setState({
+      view: state
+    });
   };
 
   get renderSpinner() {
@@ -68,8 +64,8 @@ class Gallery extends React.Component {
       <div className="gallery" ref="gallery">
         {this.renderSpinner}
         <div className="gallery_view">
-          <a href="#" data-view="grid" className="gallery_view-button fa fa-th" onClick={this.changeView} />
-          <a href="#" data-view="line" className="gallery_view-button fa fa-bars" onClick={this.changeView} />
+          <a href="#" data-view="grid" className={this.state.view === 'grid' ? 'gallery_view-button fa fa-th active' : 'gallery_view-button fa fa-th'}  onClick={this.changeView} />
+          <a href="#" data-view="line" className={this.state.view === 'grid' ? 'gallery_view-button fa fa-bars' : 'gallery_view-button fa fa-bars active'} onClick={this.changeView} />
         </div>
         <ul className={this.state.view === 'grid' ? 'gallery_list' : 'gallery_list line'}>
           {photoComponents}
