@@ -1,15 +1,11 @@
 import React from 'react';
 import Picture from '../picture/picture.js';
+import Controls from '../slideshow/controls/controls';
 
 require('./slideshow.scss');
 
 class Slideshow extends React.Component {
-  state = {
-    currentSlide: 0
-  };
-
   static propTypes = {
-    pictures: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     close: React.PropTypes.func
   };
 
@@ -20,6 +16,8 @@ class Slideshow extends React.Component {
         <div className="slideshow">
           <Picture ref="picture" className={className} item={this.props.selectedItem}/>
           <a href="#" className="gallery_close" onClick={this.props.close}>X</a>
+
+          <Controls prev={this.props.prev} next={this.props.next} />
         </div>
       );
     } else {

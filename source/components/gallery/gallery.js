@@ -60,10 +60,23 @@ class Gallery extends React.Component {
   }
 
   showGallery = (selected) => {
+    let firstCount = 0;
+    let lastCount = this.state.data.length - 1;
+
+    if (selected < firstCount) {
+      selected = lastCount;
+    }
+
+    if (selected > lastCount) {
+      selected = firstCount;
+    }
+
     this.setState({
-      selected
+      currentSlide: selected,
+      selected: this.state.data[selected]
     });
   };
+
 
  closeGallery = () => {
    let selected = null;
@@ -73,9 +86,10 @@ class Gallery extends React.Component {
     });
  };
 
+
   render() {
-    const photoComponents = this.state.data.map(photo => {
-      return <li ref="picture" className="gallery_item picture" key={photo.id}><Picture onClick={this.showGallery} onLoadCb={::this.handleStateChange} item={photo}/></li>
+    const photoComponents = this.state.data.map((photo, index) => {
+      return <li  className="gallery_item picture" key={photo.id}><Picture onClick={this.showGallery.bind(this, index)} onLoadCb={::this.handleStateChange} item={photo}/></li>
     });
 
     return (
@@ -91,7 +105,16 @@ class Gallery extends React.Component {
           {photoComponents}
         </ul>
 
-        <Slideshow close={this.closeGallery} selectedItem={this.state.selected} />
+        <Slideshow
+          close={this.closeGallery}
+          next={() => {
+            this.showGallery(this.state.currentSlide + 1)
+          }}
+
+          prev={() => {
+            this.showGallery(this.state.currentSlide - 1)
+          }}
+          selectedItem={this.state.selected} />
       </div>
     );
   }

@@ -1,4 +1,6 @@
 .gallery {
+  position: relative;
+
   &_list {
     display: flex;
     justify-content: space-around;
