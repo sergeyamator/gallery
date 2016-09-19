@@ -34,13 +34,22 @@ class Gallery extends React.Component {
     data: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
   };
 
-  handleStateChange() {
+  /**
+   * When all picture loaded
+   * hide preloader
+   */
+  pictureLoaded() {
     const galleryElement = this.refs.gallery;
     this.setState({
       loading: !imagesLoaded(galleryElement),
     })
   }
 
+  /**
+   * Change view from grid to line and vise verse
+   * by mouse click on tabs
+   * @param {Event} e
+   */
   changeView = (e) => {
     e.preventDefault();
 
@@ -59,26 +68,30 @@ class Gallery extends React.Component {
       : null;
   }
 
-  showGallery = (selected) => {
+  /**
+   * Show gallery with picture by index
+   * @param {Number} index
+   */
+  showSlideshow = (index) => {
     let firstCount = 0;
     let lastCount = this.state.data.length - 1;
 
-    if (selected < firstCount) {
-      selected = lastCount;
+    if (index < firstCount) {
+      index = lastCount;
     }
 
-    if (selected > lastCount) {
-      selected = firstCount;
+    if (index > lastCount) {
+      index = firstCount;
     }
 
     this.setState({
-      currentSlide: selected,
-      selected: this.state.data[selected]
+      currentSlide: index,
+      selected: this.state.data[index]
     });
   };
 
 
- closeGallery = () => {
+ closeSlideshow = () => {
    let selected = null;
 
     this.setState({
@@ -89,31 +102,40 @@ class Gallery extends React.Component {
 
   render() {
     const photoComponents = this.state.data.map((photo, index) => {
-      return <li  className="gallery_item picture" key={photo.id}><Picture onClick={this.showGallery.bind(this, index)} onLoadCb={::this.handleStateChange} item={photo}/></li>
+      return <li  className="gallery_item picture" key={photo.id}><Picture onClick={this.showSlideshow.bind(this, index)} onLoadCb={::this.pictureLoaded} item={photo}/></li>
     });
 
     return (
       <div className="gallery" ref="gallery">
+        {/* While pictures don't render spinner is shown */}
         {this.renderSpinner}
 
+        {/* Grid and line view buttons  */}
         <div className="gallery_view">
           <a href="#" data-view="grid" className={this.state.view === 'grid' ? 'gallery_view-button fa fa-th active' : 'gallery_view-button fa fa-th'}  onClick={this.changeView} />
           <a href="#" data-view="line" className={this.state.view === 'grid' ? 'gallery_view-button fa fa-bars' : 'gallery_view-button fa fa-bars active'} onClick={this.changeView} />
         </div>
 
+        {/* All pictures */}
         <ul className={this.state.view === 'grid' ? 'gallery_list' : 'gallery_list line'}>
           {photoComponents}
         </ul>
 
+        {/* Slideshow */}
         <Slideshow
-          close={this.closeGallery}
+          close={this.closeSlideshow}
+
+          /* Next picture button*/
           next={() => {
-            this.showGallery(this.state.currentSlide + 1)
+            this.showSlideshow(this.state.currentSlide + 1)
           }}
 
+          /* Previous picture button*/
           prev={() => {
-            this.showGallery(this.state.currentSlide - 1)
+            this.showSlideshow(this.state.currentSlide - 1)
           }}
+
+          /* Picture that shows at the slideshow */
           selectedItem={this.state.selected} />
       </div>
     );
